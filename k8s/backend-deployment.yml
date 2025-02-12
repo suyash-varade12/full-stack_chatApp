@@ -12,23 +12,25 @@ spec:
     metadata:
       name: backend-pod
       namespace: chat-app
-      labels: 
+      labels:
         app: backend
     spec:
+      restartPolicy: Always # Always, OnFailure, Never
       containers:
-      - name: chatapp-backend
-        image: trainwithshubham/chatapp-backend:latest
-        ports:
-        - containerPort: 5001
-        env:
-        - name: NODE_ENV
-          value: production
-        - name: MONGODB_URI
-          value: "mongodb://mongoadmin:secret@mongodb:27017/dbname?authSource=admin"
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: chatapp-secrets
-              key: jwt 
-        - name: PORT
-          value: "5001"
+        - name: chatapp-backend
+          image: suyashvarade/chatapp-backend:latest
+          imagePullPolicy: IfNotPresent # Always, IfNotPresent, Never
+          ports:
+            - containerPort: 5001
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: MONGODB_URI
+              value: "mongodb://mongoadmin:secret@mongodb:27017/dbname?authSource=admin"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: chatapp-secrets
+                  key: jwt
+            - name: PORT
+              value: "5001"

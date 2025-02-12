@@ -12,18 +12,16 @@ spec:
     metadata:
       name: frontend-pod
       namespace: chat-app
-      labels: 
+      labels:
         app: frontend
     spec:
+      restartPolicy: Always # Always, OnFailure, Never
       containers:
-      - name: chatapp-frontend
-        image: trainwithshubham/chatapp-frontend
-        ports:
-        - containerPort: 80
-        env:
-        - name: NODE_ENV
-          value: production
-          
-
-
-
+        - name: chatapp-frontend
+          image: suyashvarade/chatapp-frontend:latest
+          imagePullPolicy: IfNotPresent # Always, IfNotPresent, Never
+          ports:
+            - containerPort: 80
+          env:
+            - name: NODE_ENV
+              value: production

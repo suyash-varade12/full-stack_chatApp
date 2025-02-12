@@ -10,25 +10,24 @@ spec:
       app: mongodb
   template:
     metadata:
-      name: mongodb-pod
+      name: mongo-pod
       namespace: chat-app
-      labels: 
+      labels:
         app: mongodb
     spec:
+      restartPolicy: Always # Always, OnFailure, Never
       containers:
-      - name: chatapp-mongodb
-        image: mongo:latest
-        ports:
-        - containerPort: 27017
-        env:
-        - name: MONGO_INITDB_ROOT_USERNAME
-          value: mongoadmin
-        - name: MONGO_INITDB_ROOT_PASSWORD
-          value: secret
+        - name: chatapp-mongodb
+          image: mongo:latest
+          imagePullPolicy: IfNotPresent # Always, IfNotPresent, Never
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: mongoadmin
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: secret
       volumes:
-      - name: mongo-data
-        persistentVolumeClaim:
-          claimName: mongodb-pvc   
-
-
-
+        - name: mongodb-data
+          persistentVolumeClaim:
+            claimName: mongodb-pvc
